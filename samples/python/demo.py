@@ -19,6 +19,16 @@ def on_connect(client_id):
 def on_recv(client_id, message_type, message_data):
     print('[on_recv] client_id: {0}, message_type: {1}, message:{2}'.format(client_id,
                                                                             message_type, json.dumps(message_data)))
+@wechat.RECV_CALLBACK(in_class=False)
+def send_test(client_id, message_type, message_data):
+    # hello = str('你好'.encode('unicode_escape'))
+    # hello = hello[2:len(hello) - 1].replace('\\\\', '\\')
+    print("~~~~~~~~~~~~~~接收你好~~~~~~~~~")
+    print('send_test函数 client_id: {0}, message_type: {1}, message:{2}'.format(client_id,message_type,json.dumps(message_data)))
+    if 'msg' in message_data.keys():
+        if message_data['msg'] == "你好":
+            wechat_manager.send_text(client_id, message_data['from_wxid'], '😘')
+
 
 
 @wechat.CLOSE_CALLBACK(in_class=False)
